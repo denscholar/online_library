@@ -50,6 +50,7 @@ def register_view(request):
             user = CustomUser.objects.create_user(email=email, password=password)
 
             user.first_name = first_name
+            user.role = CustomUser.READER
             user.last_name = last_name
             user.is_active = True
             user.is_verified = True
