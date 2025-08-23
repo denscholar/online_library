@@ -2,10 +2,10 @@ import os
 from pathlib import Path
 import dj_database_url
 from decouple import config
-import cloudinary
-import cloudinary.uploader
-import cloudinary.api
+from dotenv import load_dotenv
 
+# Load environment variables from .env file
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -31,9 +31,9 @@ INSTALLED_APPS = [
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
-    "cloudinary",
     "cloudinary_storage",
     "django.contrib.staticfiles",
+    "cloudinary",
     "accounts",
     "home",
     "books",
@@ -156,11 +156,24 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
-# Cloudinary configuration
+# Cloudinary credentials
 CLOUDINARY_STORAGE = {
-    "CLOUDINARY_CLOUD_NAME": os.environ.get("CLOUDINARY_CLOUD_NAME"),
-    "CLOUDINARY_API_KEY": os.environ.get("CLOUDINARY_API_KEY"),
-    "CLOUDINARY_API_SECRET": os.environ.get("CLOUDINARY_API_SECRET"),
+    "CLOUD_NAME": os.getenv("CLOUDINARY_CLOUD_NAME"),
+    "API_KEY": os.getenv("CLOUDINARY_API_KEY"),
+    "API_SECRET": os.getenv("CLOUDINARY_API_SECRET"),
+    "INVALID_VIDEO_ERROR_MESSAGE": "Please upload a valid video file.",
+    'STATIC_IMAGES_EXTENSIONS': ['jpg', 'JPG', 'jpe', 'jpeg', 'jpc', 'jp2', 'j2k', 'wdp', 'jxr',
+                                 'hdp', 'png', 'gif', 'webp', 'bmp', 'tif', 'tiff', 'ico'],
+    'STATIC_VIDEOS_EXTENSIONS': ['mp4', 'webm', 'flv', 'mov', 'ogv' ,'3gp' ,'3g2' ,'wmv' ,
+                                 'mpeg' ,'flv' ,'mkv' ,'avi'],
 }
 
-DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
+
+STORAGES = {
+    "default": {
+        "BACKEND": "cloudinary_storage.storage.RawMediaCloudinaryStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage"
+    },
+}
