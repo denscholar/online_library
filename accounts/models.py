@@ -34,7 +34,6 @@ class MyUserManager(BaseUserManager):
         extra_fields.setdefault("is_active", True)
         extra_fields.setdefault("is_verified", True)
 
-
         if extra_fields.get("is_staff") is not True:
             raise ValueError("Superuser must have is_staff=True.")
         if extra_fields.get("is_superuser") is not True:
@@ -60,8 +59,8 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
     slug = models.CharField(max_length=400, blank=True, null=True, unique=True)
-    profile_image = models.ImageField(upload_to='profile')
-    role = models.CharField(choices=ROLE_CHOICES, blank=True, null=True)
+    profile_image = models.ImageField(upload_to="profile")
+    role = models.CharField(max_length=50, choices=ROLE_CHOICES, blank=True, null=True)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)

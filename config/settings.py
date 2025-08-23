@@ -1,6 +1,7 @@
 import os
 from pathlib import Path
 import dj_database_url
+from decouple import config
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -11,12 +12,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-%#ixf5j21ker(94-=#156gf_v%xz(kjpmf$=r3%6&(x#6fgede"
+SECRET_KEY = config("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config("DEBUG", cast=bool)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = config("ALLOWED_HOSTS").split(",")
 
 
 # Application definition
@@ -80,10 +81,20 @@ WSGI_APPLICATION = "config.wsgi.application"
 #     }
 # }
 
-DATABASES = {
-    'default': dj_database_url.config(default='postgresql://online_librarydb_user:bPhHM9ehpyQ1VYswObpWHJcG8P6zBoNm@dpg-d2kqn1f5r7bs73cv8ep0-a.oregon-postgres.render.com/online_librarydb')
+LOCAL_DB = {
+    "ENGINE": "django.db.backends.postgresql",
+    "NAME": "libraryDB",
+    "USER": "postgres",
+    "PASSWORD": "sunshine",
+    "HOST": "localhost",
+    "PORT": 5432,
 }
 
+
+DATABASES = {
+    "default": dj_database_url.config(default=os.environ.get("DATABASE_URL"))
+    or LOCAL_DB
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
