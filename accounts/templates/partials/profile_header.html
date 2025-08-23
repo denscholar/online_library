@@ -14,7 +14,7 @@
                      </div>
                      <div class="profile-header-info">
                         <h4 class="m-t-10 m-b-5">{{ user.first_name }} {{ user.last_name }}</h4>
-                        <p class="m-b-10">{{ user.role|upper}}</p>
+                        <p class="m-b-10">{{ user.role|upper }}</p>
                         <a href="{% url 'accounts:logout' %}" class="btn btn-sm btn-info mb-2">Log Out</a>
                      </div>
                      <!-- END profile-header-info -->
@@ -48,7 +48,7 @@
                      {% endif %}
                      <div class="profile-header-info">
                         <h4 class="m-t-10 m-b-5">{{ user.first_name }} {{ user.last_name }}</h4>
-                        <p class="m-b-10">{{ user.role|upper}}</p>
+                        <p class="m-b-10">{{ user.role|upper }}</p>
                         <a href="{% url 'accounts:logout' %}" class="btn btn-sm btn-info mb-2">Log Out</a>
                      </div>
                      <!-- END profile-header-info -->

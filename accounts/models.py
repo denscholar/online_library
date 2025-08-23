@@ -54,7 +54,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         (READER, "Reader"),
     )
 
-    email = models.EmailField(max_length=254, unique=True)
+    email = models.EmailField(max_length=150, unique=True)
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
     slug = models.CharField(max_length=100, blank=True, null=True, unique=True)
@@ -68,6 +68,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     updated = models.DateTimeField(auto_now=True)
 
     USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = ["first_name", "last_name"]
 
     objects = MyUserManager()
 

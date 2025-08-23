@@ -77,40 +77,36 @@ def register_view(request):
 
 
 def login_view(request):
-    # Redirect if already authenticated
+     # Redirect if user is already logged in
     if request.user.is_authenticated:
-        return redirect("home:home")
+        if request.user.role == "librarian":
+            return redirect("accounts:book-list")
+        return redirect("accounts:reader")
+    
+    context = {"field_value": {}}
 
     if request.method == "POST":
-        email = request.POST.get("email", "")
-        password = request.POST.get("password", "")
-        context = {"field_value": request.POST}
+        email = request.POST.get("email", "").strip()
+        password = request.POST.get("password", "").strip()
+        context["field_value"] = request.POST
 
         if not email or not password:
             messages.error(request, "Email and password are required")
             return render(request, "accounts/login.html", context)
 
-        # fetch the user
-        user = CustomUser.objects.filter(email=email).first()
-
-        # Check if password is incorrect
-        if not check_password(password, user.password):
-            messages.error(request, "Incorrect password")
-            return render(request, "accounts/login.html", context)
-
-        if not user:
-            messages.error(request, "This user is not registered")
-            return render(request, "accounts/login.html", context)
-
         # Authenticate user
-        authenticated_user = authenticate(request, email=email, password=password)
+        user = authenticate(request, email=email, password=password)
 
-        if authenticated_user and authenticated_user.role == "librarian":
-            login(request, authenticated_user)
+        if user is None:
+            messages.error(request, "Invalid email or password")
+            return render(request, "accounts/login.html", context)
+
+        # Login and redirect based on role
+        login(request, user)
+
+        if user.role == "librarian":
             return redirect("accounts:book-list")
-
         else:
-            login(request, authenticated_user)
             return redirect("accounts:reader")
 
     return render(request, "accounts/login.html")
