@@ -1,0 +1,77 @@
+{% extends 'base.html' %} {% load static %}
+
+{% block content %}
+<nav class="navbar navbar-dark bg-dark navbar-expand-lg" style="margin-bottom: 3rem;">
+  <div class="container-fluid">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
+            data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" 
+            aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <!-- Left side nav links -->
+      <div class="navbar-nav me-auto">
+        <a class="nav-link active mx-2" aria-current="page" href="#">Books</a>
+        <a class="nav-link mx-2" href="#">Add book(s)</a>
+        <a class="nav-link mx-2" href="#">Pricing</a>
+        <a class="nav-link disabled mx-2" aria-disabled="true">Disabled</a>
+      </div>
+
+      <!-- Right side profile dropdown -->
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" 
+             id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <!-- Profile Image -->
+            <img src="{% static 'images/default-profile.jpg' %}" alt="Profile" 
+                 class="rounded-circle" width="40" height="40">
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+            <li><a class="dropdown-item" href="{% url 'accounts:book-list' %}">Profile</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#">Logout</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- list of books -->
+ <div class="grid-container">
+  <div class="card">
+    <div class="title">Alice in Wonderland</div>
+    <div class="cover-page">
+      <img src="" alt="">
+    </div>
+    <div class="content">
+      <p>Author(s): </p>
+    </div>
+  </div>
+  
+  <div class="card">
+    <div class="title" style="display: flex; justify-content: center; gap: 2rem;">
+      <div>Title:</div>
+      <div>Alice in Wonderland</div>
+    </div>
+    <div class="cover-page">
+      <img src="" alt="">
+    </div>
+    <div class="content">
+      <p>Author(s): Wole Soyinka, Chinua Achebe</p>
+    </div>
+  </div>
+  
+  <div class="card">
+    <div class="title">Alice in Wonderland</div>
+    <div class="cover-page">
+      <img src="" alt="">
+    </div>
+    <div class="content">
+      <p>Author(s): </p>
+    </div>
+  </div>
+</div>
+{% endblock %}
+    

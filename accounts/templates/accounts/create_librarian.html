@@ -1,0 +1,14 @@
+{% extends 'base_profile.html' %} {% load static %} {% block content %} 
+{% include 'partials/profile_header.html' %}
+
+<div class="container mt-4">
+  <h3 class="mb-4">Create Librarian</h3>
+  {% include 'partials/messages.html' %}
+  <form method="post" enctype="multipart/form-data" class="card p-4 shadow-sm">
+    {% csrf_token %} {{ form.as_p }}
+
+    <button type="submit" class="btn btn-primary">Create Librarian</button>
+  </form>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,91 @@
+{% extends 'base_profile.html' %} {% load static %} {% block content %} {% include 'partials/profile_header.html' %}
+<div class="container mt-4">
+  <h3 class="mb-4">Checked-out Books</h3>
+
+  {% if checkout_books %}
+    <div class="row">
+      {% for book in checkout_books %}
+        <div class="col-md-4 col-lg-3 mb-4">
+          <div class="card shadow-sm h-100" style="border-radius: 12px">
+            <img
+              src="{{ book.conver_page_image.url }}"
+              class="card-img-top"
+              alt="{{ book.title }}"
+              style="height: 200px; object-fit: cover; border-radius: 12px 12px 0 0"
+            />
+            <div class="card-body">
+              <h5 class="card-title text-truncate">{{ book.title }}</h5>
+              <p class="card-text mb-1">
+                <strong>Author(s):</strong> {{ book.author }}
+              </p>
+              <p class="card-text mb-1">
+                <strong>ISBN:</strong> {{ book.isbn }}
+              </p>
+              <p class="card-text text-muted">
+                <strong>Status:</strong>
+                <span class="badge bg-warning text-dark">Checked Out</span>
+              </p>
+            </div>
+            <div class="card-footer text-center bg-white border-0">
+              <button 
+                class="btn btn-sm btn-outline-danger"
+                data-bs-toggle="modal"
+                data-bs-target="#bookModal{{ book.id }}">
+                See Details
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Book Modal -->
+        <div class="modal fade" id="bookModal{{ book.id }}" tabindex="-1" aria-labelledby="bookModalLabel{{ book.id }}" aria-hidden="true">
+          <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="bookModalLabel{{ book.id }}">{{ book.title }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body d-flex gap-4">
+                <!-- Book Image -->
+                <div style="flex: 1">
+                  <img src="{{ book.conver_page_image.url }}" class="img-fluid rounded shadow-sm" alt="{{ book.title }}">
+                </div>
+                <!-- Book Details -->
+                <div style="flex: 2">
+                  <p><strong>Author:</strong> {{ book.author }}</p>
+                  <p><strong>ISBN:</strong> {{ book.isbn }}</p>
+                  <p><strong>Publisher:</strong> {{ book.publisher }}</p>
+                  <p><strong>Checked Out By:</strong> {{ book.checked_out_by.get_full_name|default:book.checked_out_by.email }}</p>
+                  <p><strong>Checked Out Date:</strong> {{ book.checked_out_date|date:"M d, Y H:i" }}</p>
+                  <p><strong>Expected Check-in Date:</strong> {{ book.expected_check_in_date|date:"M d, Y H:i" }}</p>
+                  <p>
+                    <strong>Status:</strong>
+                    {% if book.is_overdue %}
+                      <span class="badge bg-danger">Overdue</span>
+                    {% else %}
+                      <span class="badge bg-warning text-dark">Checked Out</span>
+                    {% endif %}
+                  </p>
+                  {% if book.days_remaining is not None %}
+                    <p><strong>Days Remaining:</strong> {{ book.days_remaining }}</p>
+                  {% endif %}
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="alert alert-info text-center" role="alert">
+      There are no checked out any books yet.
+    </div>
+  {% endif %}
+</div>
+    
+{% endblock content %}
+    

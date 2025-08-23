@@ -1,0 +1,118 @@
+{% extends 'base_profile.html' %} {% load static %} {% block content %} 
+{% include 'partials/profile_header.html' %}
+
+<!-- list of books -->
+<div class="container mt-4">
+  <h3 class="text-left mb-4">Books</h3>
+  <form method="get" action="" class="mb-4">
+    <div class="input-group">
+      <input 
+        type="text" 
+        name="q" 
+        value="{{ query }}" 
+        class="form-control" 
+        placeholder="Search by title, ISBN, publisher, or date (YYYY-MM-DD)">
+      <button class="btn btn-primary" type="submit">Search</button>
+    </div>
+  </form>
+  <div class="row" id="books-container">
+    {% for book in all_books %}
+    <div class="col-md-4 col-lg-3 mb-4" id="book-{{ book.isbn }}">
+      <div class="card shadow-sm h-100" style="border-radius: 12px">
+        <img
+          src="{{ book.conver_page_image.url }}"
+          class="card-img-top"
+          alt="{{ book.title }}"
+          style="height: 200px; object-fit: cover; border-radius: 12px 12px 0 0"
+        />
+        <div class="card-body">
+          <h5 class="card-title text-truncate">{{ book.title }}</h5>
+          <p class="card-text mb-1">
+            <strong>Author(s):</strong> {{ book.author }}
+          </p>
+        </div>
+        <div
+          class="card-footer text-center bg-white border-0"
+          style="
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            gap: 1rem;
+          "
+        >
+          <p style="padding: 0; margin: 0">Borrow this book</p>
+          <input type="checkbox" onchange="checkInOrOut('{{ book.isbn }}',
+          this.checked ? 'checkout' : 'checkin')" {% if book.is_checked_out and book.checked_out_by == user %}checked{% endif %} />
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  <!-- Message for empty list -->
+  <p id="empty-message" class="text-center mt-4" {% if all_books %}style="display:none;"{% endif %}>
+    No books in the library yet.
+  </p>
+</div>
+
+<script>
+  function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== "") {
+      const cookies = document.cookie.split(";");
+      for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i].trim();
+        if (cookie.substring(0, name.length + 1) === name + "=") {
+          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+          break;
+        }
+      }
+    }
+    return cookieValue;
+  }
+
+  function checkInOrOut(isbn, action) {
+    fetch(`/books/checkout/${isbn}/`, {
+      method: "POST",
+      headers: {
+        "X-CSRFToken": getCookie("csrftoken"),
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: `action=${action}`,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data.message);
+        alertify.set("notifier", "position", "top-right");
+        if (data.status === "success") {
+          alertify.success(`${data.message}`);
+
+          if (action === "checkout") {
+            // Remove the book card/item from the DOM
+            const bookElement = document.getElementById(`book-${isbn}`);
+            if (bookElement) {
+              bookElement.remove();
+            }
+
+            // If no books left, show message
+             // Check if no books left, then show empty message
+            const container = document.getElementById("books-container");
+            if (container.children.length === 0) {
+            document.getElementById("empty-message").style.display = "block";
+            }
+            
+          } else if (action === "checkin") {
+            // Optional: If you want to add it back to available list dynamically
+            // You could re-fetch available books or append the DOM here
+          }
+        } else {
+          alertify.error(`${data.message}`);
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        alertify.error("Something went wrong!");
+      });
+  }
+</script>
+
+{% endblock %}

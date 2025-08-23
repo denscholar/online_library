@@ -1,0 +1,76 @@
+<div class="container">
+   <div class="row">
+      <div class="col-md-12">
+         <div id="content" class="content content-full-width">
+            <!-- begin profile -->
+            
+            {% if user.is_authenticated and user.role == 'reader' %}
+            <div class="profile">
+               <div class="profile-header">
+                  <div class="profile-header-cover"></div>
+                  <div class="profile-header-content">
+                     <div class="profile-header-img">
+                        <img src="{{ user.profile_image.url }}" alt="profile_image">
+                     </div>
+                     <div class="profile-header-info">
+                        <h4 class="m-t-10 m-b-5">{{ user.first_name }} {{ user.last_name }}</h4>
+                        <p class="m-b-10">{{ user.role|upper}}</p>
+                        <a href="{% url 'accounts:logout' %}" class="btn btn-sm btn-info mb-2">Log Out</a>
+                     </div>
+                     <!-- END profile-header-info -->
+                  </div>
+                  <!-- END profile-header-content -->
+                  <!-- BEGIN profile-header-tab -->
+                  <ul class="profile-header-tab nav nav-tabs">
+                      <li class="nav-item"><a href="{% url 'accounts:reader' %}" class="nav-link_">BOOKS</a></li>
+                      <li class="nav-item"><a href="{% url 'accounts:checkout-books' %}" class="nav-link_">CHECKED-OUT-BOOKS</a></li>
+                  </ul>
+                  <!-- END profile-header-tab -->
+               </div>
+            </div>
+
+            {% else %}
+             <div class="profile">
+               <div class="profile-header">
+                  <!-- BEGIN profile-header-cover -->
+                  <div class="profile-header-cover"></div>
+                  <!-- END profile-header-cover -->
+                  <!-- BEGIN profile-header-content -->
+                  <div class="profile-header-content">
+                     {% if user.profile_image %}
+                     <div class="profile-header-img">
+                        <img src="{{ user.profile_image.url }}" alt="profile-image">
+                     </div>
+                     {% else %}
+                     <div class="profile-header-img">
+                        <img src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="">
+                     </div>
+                     {% endif %}
+                     <div class="profile-header-info">
+                        <h4 class="m-t-10 m-b-5">{{ user.first_name }} {{ user.last_name }}</h4>
+                        <p class="m-b-10">{{ user.role|upper}}</p>
+                        <a href="{% url 'accounts:logout' %}" class="btn btn-sm btn-info mb-2">Log Out</a>
+                     </div>
+                     <!-- END profile-header-info -->
+                  </div>
+                  <!-- END profile-header-content -->
+                  <!-- BEGIN profile-header-tab -->
+                  <ul class="profile-header-tab nav nav-tabs">
+                      <li class="nav-item"><a href="{% url 'accounts:book-list' %}" class="nav-link_">BOOKS ADDED BY ME</a></li>
+                      <li class="nav-item"><a href="{% url 'accounts:readers' %}" class="nav-link_">READERS</a></li>
+                     <li class="nav-item"><a href="{% url 'accounts:add-book' %}" class="nav-link_">ADD BOOK</a></li>
+                     <li class="nav-item"><a href="{% url 'accounts:list-checkout-books' %}" class="nav-link_">CHECKED-OUT BOOKS</a></li>
+                     <li class="nav-item"><a href="{% url 'accounts:create_librarian' %}" class="nav-link_">CREATE A LIBRARIAN</a></li>
+
+                  </ul>
+                  <!-- END profile-header-tab -->
+               </div>
+            </div>
+            {% endif %}
+               
+            <!-- end profile -->
+            
+         </div>
+      </div>
+   </div>
+</div>

@@ -1,0 +1,230 @@
+{% load static %}
+
+<div
+  class="modal fade"
+  id="staticBackdrop"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  tabindex="-1"
+  aria-labelledby="staticBackdropLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Cart</h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="container cart-container">
+          <div class="row">
+            <div class="col-md-6">
+              <!-- Empty Cart Message -->
+              <p
+              id="empty-cart-message"
+              class="text-center fs-5 text-danger fw-bold"
+              style="display: none;"
+            >
+              No Grocery in cart yet.
+            </p>
+              <ul
+                id="cart-items"
+                class="p-3 rounded"
+                style="border: 1px solid black"
+              >
+                
+                <li
+                  class="d-flex justify-content-between align-items-center my-3 gap-2"
+                >
+                  <div
+                    class="image-wrapper d-flex justify-content-center gap-3"
+                  >
+                    <img
+                      width="100px"
+                      height="100px"
+                      src="{% static 'img/rice_2.jpeg' %}"
+                      alt="rice image"
+                    />
+                    <div
+                      class="increament-decreament d-flex justify-content-center gap-2 flex-column"
+                    >
+                      <div class="product-name-desc">
+                        <h3 class="fs-5 m-0 p-0">Rice 20KG</h3>
+                        <p class="prod-desc mt-1 fs-6">
+                          This is a 25kg Dangote bag of rice
+                        </p>
+                      </div>
+                      <div
+                        class="d-flex justify-content-start gap-2 align-items-center"
+                      >
+                        <button
+                          class="btn btn-outline-secondary btn-sm px-3 py-1 fw-bold decrement"
+                        >
+                          -
+                        </button>
+                        <span class="fs-6 fw-bold">1</span>
+                        <button
+                          class="btn btn-outline-secondary btn-sm px-3 py-1 fw-bold increment"
+                        >
+                          +
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="delete-amount d-flex justify-content-between flex-column align-items-center gap-3"
+                  >
+                    <i
+                      class="fa-solid fa-trash text-danger cursor-pointer fs-4"
+                    ></i>
+                    <p class="fw-bold fs-6 mt-2 text-black-50">₦50,000.00</p>
+                  </div>
+                </li>
+                <hr />
+                <li
+                  class="d-flex justify-content-between align-items-center my-3 gap-2"
+                >
+                  <div class="image-wrapper d-flex justify-content-center">
+                    <img
+                      width="100px"
+                      height="100px"
+                      src="{% static 'img/rice_2.jpeg' %}"
+                      alt="rice image"
+                    />
+                    <div
+                      class="increament-decreament d-flex justify-content-center gap-2 flex-column"
+                    >
+                      <div class="product-name-desc">
+                        <h3 class="fs-5 m-0 p-0">Rice 20KG</h3>
+                        <p class="prod-desc mt-1 fs-6">
+                          This is a 25kg Dangote bag of rice
+                        </p>
+                      </div>
+                      <div
+                        class="d-flex justify-content-start gap-2 align-items-center"
+                      >
+                        <button
+                          class="btn btn-outline-secondary btn-sm px-3 py-1 fw-bold"
+                        >
+                          -
+                        </button>
+                        <span class="fs-6 fw-bold">1</span>
+                        <button
+                          class="btn btn-outline-secondary btn-sm px-3 py-1 fw-bold"
+                        >
+                          +
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="delete-amount d-flex justify-content-between flex-column align-items-center gap-4"
+                  >
+                    <i
+                      class="fa-solid fa-trash text-danger cursor-pointer fs-4"
+                    ></i>
+                    <p class="fw-bold fs-6 mt-2 text-black-50">₦50,000.00</p>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="col-md-6" style="max-height: 35vh">
+              <div
+                class="sum-container d-flex flex-column p-3 rounded"
+                style="
+                  background-color: #dfdbdb4c;
+                  min-height: 100%;
+                  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px,
+                    rgba(0, 0, 0, 0.24) 0px 1px 2px;
+                "
+              >
+                <div class="summary-wrapper">
+                  <div
+                    class="d-flex justify-content-between align-items-center"
+                    style="background-color: inherit !important"
+                  >
+                    <p id="total-items" class="balance fs-6 fw-bold">0 items</p>
+                    <p class="balance fs-6 fw-bold">
+                      GroFund Bal.:
+                      <span class="fs-6 fw-bold text-body mx-2" id="grofund-bal"
+                        >N300,000.00</span
+                      >
+                    </p>
+                  </div>
+                  <hr />
+
+                  {% comment %}
+                  <div
+                    class="sub-total d-flex justify-content-between align-items-center mb-2"
+                    style="background-color: inherit !important"
+                  >
+                    <p class="balance fs-6 fw-bold">GroFund Balance</p>
+                    <p class="account-balance fs-5 fw-bolder">N300,000.00</p>
+                  </div>
+
+                  {% endcomment %}
+
+                  <div
+                    class="sub-total d-flex justify-content-between align-items-center"
+                    style="background-color: inherit !important"
+                  >
+                    <p class="balance fs-6 fw-4">Total Orders</p>
+                    <p id="total-orders" class="account-balance fs-6 fw-4">
+                      ₦0
+                    </p>
+                  </div>
+                  <div
+                    class="sub-total d-flex justify-content-between align-items-center"
+                    style="background-color: inherit !important"
+                  >
+                    <p class="balance fs-6 fw-4">Delivery Fee</p>
+                    <p id="delivery-fee" class="account-balance fs-6 fw-4">
+                      ₦1,500.00
+                    </p>
+                  </div>
+                  <hr />
+                  <div
+                    class="sub-total d-flex justify-content-between align-items-center"
+                    style="background-color: inherit !important"
+                  >
+                    <p class="balance fs-6 fw-bold">Total cost</p>
+                    <p id="total-cost" class="fs-6 fw-bold text-body">
+                      ₦0
+                    </p>
+                  </div>
+                  <hr />
+                  <div
+                    class="sub-total d-flex justify-content-between align-items-center"
+                    style="background-color: inherit !important"
+                  >
+                    <p class="fs-6 fw-bold text-mute">Current Balance</p>
+                    <p id="current-balance" class="account-balance fs-5 fw-bold" style="color: #34C759;">
+                      ₦0
+                    </p>
+                  </div>
+                </div>
+                <button id="check-out-button" data-bs-dismiss="modal" class="text-center p-2 mt-3" style="background-color: #34C759; color: #fff; border: none; outline: none; border-radius: 5px; padding: 10px !important; font-size: 0.9rem;">Check Out</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Close
+        </button>
+        
+        {% comment %}
+        <button type="button" class="btn btn-primary">Understood</button>
+          
+        {% endcomment %}
+          
+      </div>
+    </div>
+  </div>
+</div>

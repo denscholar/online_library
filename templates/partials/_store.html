@@ -1,0 +1,43 @@
+{% load static %} {% load humanize %}
+
+<div class="row">
+  {% for product in products %}
+    <div class="col-md-3 col-lg-3">
+      <div class="product-wrapper mb-4">
+        <div class="card product-container">
+          <div
+            class="product-image-container"
+            style="display: flex; place-content: center; padding: 2rem"
+          >
+            <img
+              src="{{ product.image.url }}"
+              height="180px"
+              width="180px"
+              alt="{{ product.product_name }}"
+              style="object-fit: cover"
+            />
+            <div class="overlay"></div>
+            <div class="add-to-cart-overlay" data-product-id="{{ product.slug }}">Add to Cart</div>
+            {% if product.discount_percentage %}
+              <div class="discount">-{{ product.discount_percentage }}%</div>
+            {% endif %}
+          </div>
+        </div>
+        <div
+          class="details"
+          style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 0;"
+        >
+          <div class="product-name">
+            <p class="name">{{ product.product_name }}</p>
+          </div>
+          <div class="product-price">
+            {% if product.old_price %}
+              <del class="price old-price">₦{{ product.old_price|intcomma }}</del>
+            {% endif %}
+            <p class="price new-price">₦{{ product.new_price|intcomma }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+</div>

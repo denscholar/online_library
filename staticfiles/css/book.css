@@ -1,0 +1,73 @@
+@import url("https://pro.fontawesome.com/releases/v6.0.0-beta1/css/all.css");
+
+.grid-container {
+  width: min(75rem, 100%);
+  margin-inline: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(20rem, 100%), 1fr));
+  gap: 2rem;
+}
+
+.card {
+  --grad: red, blue;
+  padding: 1.5rem;
+  background-image: linear-gradient(to bottom left, #e0e4e5, #f2f6f9);
+  border-radius: 2rem;
+  gap: 1.5rem;
+  display: grid;
+  grid-template: "title icon" "content content" "bar bar" / 1fr auto;
+  font-family: system-ui, sans-serif;
+  color: #444447;
+  box-shadow: inset -2px 2px hsl(0 0% 100% / 1),
+    -20px 20px 40px hsl(0 0% 0% / 0.25);
+}
+
+/* Title inside card */
+.card .title {
+  font-size: 1rem;
+  grid-area: title;
+  align-self: end;
+  text-transform: uppercase;
+  font-weight: 500;
+  word-break: break-all;
+}
+
+/* Sub-title */
+.card .sub-title {
+  font-size: 1rem;
+  color: var(--grad);
+}
+
+/* Icon */
+.card .icon {
+  grid-area: icon;
+  font-size: 3rem;
+}
+
+.card .icon > i {
+  color: transparent;
+  /* background: linear-gradient(to right, var(--grad)); */
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+/* Content area */
+.card .content {
+  grid-area: content;
+}
+
+.card .content > *:first-child {
+  margin-top: 0rem;
+}
+
+.card .content > *:last-child {
+  margin-bottom: 0rem;
+}
+
+/* Decorative bar at bottom */
+.card::after {
+  content: "";
+  grid-area: bar;
+  height: 2px;
+  background-image: linear-gradient(90deg, var(--grad));
+}

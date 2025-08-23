@@ -1,0 +1,86 @@
+{% extends 'base_auth.html' %} {% load static %} {% block content %}
+<section class="ftco-section">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-12 col-lg-4">
+        <div class="wrap md-flex">
+          <div class="login-wrap p-4 p-md-4">
+            <div class="d-flex">
+              <div class="w-100">
+                <h3 class="mb-4">Login</h3>
+                {% include 'partials/messages.html' %}
+              </div>
+            </div>
+            <form
+              action="{% url 'accounts:login' %}"
+              method="POST"
+              class="signin-form"
+            >
+              {% csrf_token %}
+              <div class="form-group mb-3">
+                <label class="label" for="name">Enter your email</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  autocomplete="off"
+                  placeholder="email Address"
+                  name="email"
+                  value="{{field_value.email}}"
+                />
+              </div>
+              <div class="form-group mb-3">
+                <div class="label_password">
+                  <label class="label" for="password">Password</label>
+                  <a href="#"
+                    >Forgot Password</a
+                  >
+                </div>
+                <input
+                  type="password"
+                  class="form-control"
+                  placeholder="Password"
+                  autocomplete="off"
+                  name="password"
+                />
+              </div>
+              <div class="form-group">
+                <button
+                  type="submit"
+                  class="form-control btn btn-primary rounded submit px-3"
+                >
+                  <span
+                    class="spinner-border spinner-border-sm d-none"
+                    role="status"
+                    aria-hidden="true"
+                    id="submitSpinner"
+                  ></span>
+                  <span id="submitText">Sign In</span>
+                </button>
+              </div>
+            </form>
+            <p class="text-center">
+              Don't have an account?
+              <a href="{% url 'accounts:register' %}">Register</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const form = document.querySelector(".signin-form");
+    const submitBtn = form.querySelector("button[type='submit']");
+    const spinner = document.getElementById("submitSpinner");
+    const submitText = document.getElementById("submitText");
+
+    form.addEventListener("submit", function () {
+      submitBtn.disabled = true;
+      spinner.classList.remove("d-none");
+      submitText.textContent = "Signing In...";
+    });
+  });
+</script>
+
+{% endblock %}

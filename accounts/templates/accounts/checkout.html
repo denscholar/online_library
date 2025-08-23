@@ -1,0 +1,97 @@
+{% extends 'base_profile.html' %} {% load static %} {% block content %} {% include 'partials/profile_header.html' %}
+
+<!-- list of checkout books -->
+<div class="container mt-4">
+  <h3 class="text-left mb-4">Checkedout Books</h3>
+  <div class="row">
+    {% for book in checkout_books %}
+    <div class="col-md-4 col-lg-3 mb-4" id="book-{{ book.isbn }}">
+      <div class="card shadow-sm h-100" style="border-radius: 12px">
+        <img
+          src="{{ book.conver_page_image.url }}"
+          class="card-img-top"
+          alt="{{ book.title }}"
+          style="height: 200px; object-fit: cover; border-radius: 12px 12px 0 0"
+        />
+        <div class="card-body">
+          <h5 class="card-title text-truncate">{{ book.title }}</h5>
+          <p class="card-text mb-1">
+            <strong>Author(s):</strong> {{ book.author }}
+          </p>
+        </div>
+        <div
+          class="card-footer text-center bg-white border-0"
+          style="
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            gap: 1rem;
+          "
+        >
+          <p style="padding: 0; margin: 0">Borrow this book</p>
+          <input 
+          type="checkbox"
+          onchange="checkInOrOut('{{ book.isbn }}', this.checked ? 'checkout' : 'checkin')" {% if book.is_checked_out and book.checked_out_by == user %}checked{% endif %} />
+        </div>
+      </div>
+    </div>
+    {% empty %}
+    <p class="text-center">You haven't borrowed any books yets.</p>
+    {% endfor %}
+  </div>
+</div>
+
+<script>
+  function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+      const cookies = document.cookie.split(';');
+      for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i].trim();
+        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+          break;
+        }
+      }
+    }
+    return cookieValue;
+  }
+
+  function checkInOrOut(isbn, action) {
+    fetch(`/books/checkin/${isbn}/`, {
+      method: "POST",
+      headers: {
+        "X-CSRFToken": getCookie("csrftoken"),
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: `action=${action}`
+    })
+    .then((response) => response.json())
+      .then((data) => {
+        console.log(data.message);
+        alertify.set("notifier", "position", "top-right");
+        if (data.status === "success") {
+          alertify.success(`${data.message}`);
+
+          if (action === "checkin") {
+            // Remove the book card/item from the DOM
+            const bookElement = document.getElementById(`book-${isbn}`);
+            if (bookElement) {
+              bookElement.remove();
+            }
+          } else if (action === "checkout") {
+            // Optional: If you want to add it back to available list dynamically
+            // You could re-fetch available books or append the DOM here
+          }
+        } else {
+          alertify.error(`${data.message}`);
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        alertify.error("Something went wrong!");
+      });
+  }
+</script>
+
+{% endblock %}

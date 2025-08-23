@@ -1,0 +1,200 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --main-color: #004d9b;
+  --dark-color: #a71555;
+  --step-color: #ced7e0;
+  --step-size: 40px;
+  --steps: 3;
+  --progress-width: calc((var(--steps) - 1) / var(--steps) * 100%);
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+/* form style */
+
+.form-wizard {
+  background-color: #fff;
+  padding: 32px;
+  border-radius: 8px;
+  max-width: 500px;
+  box-shadow: 0 4px 16px rgba(167, 21, 84, 0.197);
+  margin: 0 auto;
+}
+
+.progress-container {
+  position: relative;
+}
+
+.progress-container::before {
+  content: "";
+  height: 4px;
+  width: var(--progress-width);
+  background-color: var(--step-color);
+  position: absolute;
+  top: calc(var(--step-size) / 2);
+  left: 50%;
+  translate: -50% -50%;
+}
+
+.progress-container .progress {
+  height: 4px;
+  width: var(--progress-width);
+  background-color: var(--main-color);
+  position: absolute;
+  top: calc(var(--step-size) / 2);
+  left: 50%;
+  translate: -50% -50%;
+  z-index: 2;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: 0.3s;
+}
+
+.progress-container ol {
+  padding: 0;
+  list-style-type: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  counter-reset: step-number;
+  position: relative;
+  z-index: 3;
+}
+
+.progress-container li {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: var(--step-color);
+  transition: 0.3s linear 0.3s;
+}
+
+.progress-container li::before {
+  counter-increment: step-number;
+  content: counter(step-number);
+  background-color: var(--step-color);
+  width: var(--step-size);
+  height: var(--step-size);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: #fff;
+}
+
+.progress-container li:where(.done, .current) {
+  color: #333;
+  font-weight: 500;
+}
+
+.progress-container li.done::before {
+  background-color: var(--main-color);
+}
+.progress-container li.current::before {
+  background-color: var(--main-color);
+  box-shadow: 0 0 0 3px rgba(167, 21, 84, 0.25);
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  border-radius: 16px;
+  padding: 8px 16px;
+  background-color: var(--main-color);
+  color: #fff;
+  transition: 0.3s;
+}
+
+button:active,
+button:hover {
+  background-color: var(--dark-color);
+}
+
+button:disabled {
+  opacity: 0.8;
+}
+
+button:focus {
+  outline-color: #333;
+}
+
+button[type="submit"] {
+  background-color: #333;
+}
+
+button[type="submit"]:hover,
+button[type="submit"]:active {
+  background-color: #444;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 16px;
+  padding-inline: 8px;
+}
+
+.controls button {
+  flex: 1;
+}
+
+/* form steps container */
+.steps-container {
+  display: flex;
+  overflow: hidden;
+}
+
+.step {
+  flex: 1 0 100%;
+  padding: 24px 8px;
+  opacity: 0;
+  transition: opacity 0.3s;
+  height: fit-content;
+}
+
+.step.current {
+  opacity: 1;
+  padding: 20px 0 0 0 !important;
+}
+
+input#firstNameInput,
+input#groupCodeInput,
+input#lastNameInput,
+input#phoneNumberInput,
+input#addressInput,
+input#occupationInput,
+input#businessInput,
+input#guarantorNameInput,
+input#guarantorAddressInput,
+input#rankInput,
+input#guarantorPhoneInput {
+  padding: 0.4375rem 0.75rem;
+}
+select#stateSelect {
+  padding: 0.55rem 0.75rem;
+}
+
+.form-group.join-group {
+  margin-bottom: 0.7rem;
+}
+
+input#profileImageFile,
+input#proofOfAddress {
+  padding: 0.6rem;
+}
+
+input#personalInfoConfirmation, input#verificationAgreement {
+  border: 1px solid black !important;
+}

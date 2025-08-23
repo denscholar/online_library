@@ -1,0 +1,21 @@
+{% extends 'base_profile.html' %} {% load static %}
+
+{% block content %}
+{% include 'partials/profile_header.html' %}
+
+<div class="container mt-5 d-flex justify-content-center">
+  <div class="card shadow-sm p-4" style="width: 50%;">
+    <h3 class="mb-4 text-center">Update Book</h3>
+    {% include 'partials/messages.html' %}
+    <form method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <div class="d-flex justify-content-between mt-3">
+        <a href="{% url 'accounts:book-list' %}" class="btn btn-secondary">Cancel</a>
+        <button type="submit" class="btn btn-primary">Update Book</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+{% endblock %}
