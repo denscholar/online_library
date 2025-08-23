@@ -67,39 +67,36 @@ TEMPLATES = [
 WSGI_APPLICATION = "config.wsgi.application"
 
 AUTHENTICATION_BACKENDS = [
-    'accounts.backends.EmailBackend',
-    'django.contrib.auth.backends.ModelBackend',
+    "accounts.backends.EmailBackend",
+    "django.contrib.auth.backends.ModelBackend",
 ]
 
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.postgresql",
-#         "NAME": "libraryDB",
-#         "USER": "postgres",
-#         "PASSWORD": "sunshine",
-#         "HOST": "localhost",
-#         "PORT": 5432,
-#     }
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "libraryDB",
+        "USER": "postgres",
+        "PASSWORD": "sunshine",
+        "HOST": "localhost",
+        "PORT": 5432,
+    }
+}
+
+# LOCAL_DB = {
+#     "ENGINE": "django.db.backends.postgresql",
+#     "NAME": "libraryDB",
+#     "USER": "postgres",
+#     "PASSWORD": "sunshine",
+#     "HOST": "localhost",
+#     "PORT": 5432,
 # }
 
-LOCAL_DB = {
-    "ENGINE": "django.db.backends.postgresql",
-    "NAME": "libraryDB",
-    "USER": "postgres",
-    "PASSWORD": "sunshine",
-    "HOST": "localhost",
-    "PORT": 5432,
-}
 
-
-DATABASES = {
-    "default": dj_database_url.config(default=os.environ.get("DATABASE_URL"))
-    or LOCAL_DB
-}
+DATABASES["default"] = dj_database_url.parse(config("DATABASE_URL"))
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators

@@ -54,12 +54,12 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         (READER, "Reader"),
     )
 
-    email = models.EmailField(max_length=150, unique=True)
+    email = models.EmailField(max_length=200, unique=True)
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
     slug = models.CharField(max_length=100, blank=True, null=True, unique=True)
     profile_image = models.ImageField(upload_to="profile")
-    role = models.CharField(max_length=20, choices=ROLE_CHOICES, blank=True, null=True)
+    role = models.CharField(max_length=22, choices=ROLE_CHOICES, blank=True, null=True)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
@@ -68,7 +68,6 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     updated = models.DateTimeField(auto_now=True)
 
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = ["first_name", "last_name"]
 
     objects = MyUserManager()
 
