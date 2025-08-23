@@ -81,19 +81,20 @@ WSGI_APPLICATION = "config.wsgi.application"
 #     }
 # }
 
-LOCAL_DB = {
-    "ENGINE": "django.db.backends.postgresql",
-    "NAME": "libraryDB",
-    "USER": "postgres",
-    "PASSWORD": "sunshine",
-    "HOST": "localhost",
-    "PORT": 5432,
-}
+# LOCAL_DB = {
+#     "ENGINE": "django.db.backends.postgresql",
+#     "NAME": "libraryDB",
+#     "USER": "postgres",
+#     "PASSWORD": "sunshine",
+#     "HOST": "localhost",
+#     "PORT": 5432,
+# }
 
 
 DATABASES = {
-    "default": dj_database_url.config(default=os.environ.get("DATABASE_URL"))
-    or LOCAL_DB
+    "default": dj_database_url.config(
+        default=os.getenv("DATABASE_URL"), conn_max_age=600, ssl_require=True
+    )
 }
 
 # Password validation
