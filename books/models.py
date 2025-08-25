@@ -52,10 +52,12 @@ class Book(models.Model):
 
     def checkout(self, user, days=14):
         """Mark book as checked out by a user for a given period (default 14 days)."""
+        if self.is_checked_out:
+            raise ValueError(f"{self.title} is already checked out.")
         self.is_checked_out = True
         self.checked_out_by = user
         self.checked_out_date = timezone.now()
-        self.expected_check_in_date = timezone.now() + timedelta(days=10)
+        self.expected_check_in_date = timezone.now() + timedelta(days=days)
         self.save()
 
     def checkin(self):

@@ -16,7 +16,9 @@ def checkout_book(request, isbn):
             book.is_checked_out = True
             book.checked_out_by = request.user
             book.checked_out_at = now()
+
             book.save()
+
             return JsonResponse({"status": "success", "message": "Book checked out"})
         else:
             return JsonResponse({"status": "error", "message": "Book already checked out"})
@@ -34,6 +36,7 @@ def checkin_book(request, isbn):
             book.checked_out_by = None
             book.checked_out_at = None
             book.save()
+
             return JsonResponse({"status": "success", "message": "Book checked in"})
         else:
             return JsonResponse({"status": "error", "message": "You cannot check in this book"})
