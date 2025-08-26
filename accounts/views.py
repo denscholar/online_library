@@ -16,7 +16,6 @@ from books.models import Book
 #                       REGISTER VIEW
 # ============================================================================
 
-
 def register_view(request):
 
     context = {"field_values": request.POST.dict()}
@@ -29,7 +28,6 @@ def register_view(request):
         confirm_password = request.POST.get("confirm_password", "").strip()
         profile_image = request.FILES.get("profile_image")
 
-        # validationsent_otp_message
         if not CustomUser.objects.filter(email=email).exists():
             if len(password) < 6:
                 messages.error(request, "Password too short")
@@ -60,8 +58,6 @@ def register_view(request):
 
             user.save()
 
-            # request.session["phone_number"] = formated_phone_number
-
             messages.success(request, "Account Created, please login")
             return redirect(reverse("accounts:login"))
 
@@ -74,7 +70,6 @@ def register_view(request):
 # ============================================================================
 #                       LOGIN VIEW
 # ============================================================================
-
 
 def login_view(request):
      # Redirect if user is already logged in
@@ -111,7 +106,9 @@ def login_view(request):
 
     return render(request, "accounts/login.html")
 
-
+# ============================================
+# AUTHENTICATION VIEW
+# ===========================================
 @login_required
 def add_book_view(request):
     if request.method == "POST":
@@ -131,12 +128,20 @@ def add_book_view(request):
     return render(request, "accounts/add_book.html", context)
 
 
+# =====================================================
+# GET BOOKS VIEW
+# ======================================
+
 def get_books_view(request):
     books = Book.objects.filter(user=request.user).order_by("-date_added")
     context = {"books": books}
 
     return render(request, "accounts/get_books.html", context)
 
+
+# ====================================
+# UPDATE BOOK VIEW
+# =======================================
 
 def update_book_view(request, isbn):
     book = get_object_or_404(Book, isbn=isbn, user=request.user)
@@ -154,6 +159,9 @@ def update_book_view(request, isbn):
     return render(request, "accounts/update_book.html", context)
 
 
+# ===============================
+# LOGOUT VIEW
+# ============================================
 def logout_view(request):
     logout(request)
     messages.success(request, "Logged out successfully!")
@@ -163,7 +171,6 @@ def logout_view(request):
 # ====================================
 # READERS VIEW
 # ===================================
-
 
 def readers_profile_view(request):
     query = request.GET.get("q", "")
@@ -183,6 +190,9 @@ def readers_profile_view(request):
     }
     return render(request, "accounts/readers_profile.html", context)
 
+# ================================
+# CHECKOUT VIEW
+# ==============================
 
 def check_out_view(request):
     checkout_books = Book.objects.filter(
@@ -193,7 +203,9 @@ def check_out_view(request):
     return render(request, "accounts/checkout.html", context)
 
 
+# ==========================
 # LIST OF CHECKOUT BOOKS
+# =============================
 def list_of_checked_books_view(request):
     checkout_books = Book.objects.filter(
         is_checked_out=True,
@@ -201,8 +213,9 @@ def list_of_checked_books_view(request):
     context = {"checkout_books": checkout_books}
     return render(request, "accounts/list_checkedout_books.html", context)
 
-
+# ===============================
 # LIST OF ALL READERS
+# ===============================
 def list_of_user(request):
     readers = CustomUser.objects.filter(role="reader")
     context = {
@@ -210,8 +223,9 @@ def list_of_user(request):
     }
     return render(request, "accounts/all-reader.html", context)
 
-
+# =========================================
 # CREATE OTHER LIBRARIAN
+# ===================================
 @login_required
 def create_librarian(request):
     # only allow librarians to create librarians

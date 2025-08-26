@@ -3,7 +3,9 @@ from django.utils import timezone
 from datetime import timedelta
 from accounts.models import CustomUser
 
-
+# ==================================
+# The book model 
+# ===========================
 class Book(models.Model):
     user = models.ForeignKey(CustomUser, related_name="books", on_delete=models.CASCADE)
     conver_page_image = models.ImageField(upload_to="cover_page_image/")

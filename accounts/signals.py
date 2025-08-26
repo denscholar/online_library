@@ -6,9 +6,11 @@ from .models import CustomUser
 
 # User = settings.AUTH_USER_MODEL
 
-
 @receiver(post_migrate)
 def create_default_librarian(sender, **kwargs):
+    """
+    This functionality creates a default admin user who is the librarian
+    """
     if sender.name == "accounts":
         if not CustomUser.objects.filter(role=CustomUser.LIBRARIAN).exists():
             CustomUser.objects.create_superuser(

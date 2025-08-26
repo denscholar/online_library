@@ -10,6 +10,9 @@ from django.contrib.auth.models import (
     Permission,
 )
 
+# ===================================
+# BASE MANAGER FOR AUTHENTICATION PURPOSE
+# ============================================
 
 class MyUserManager(BaseUserManager):
     def create_user(self, email, password, **extra_fields):
@@ -45,6 +48,9 @@ class MyUserManager(BaseUserManager):
 
         return self.create_user(email, password, **extra_fields)
 
+# ================================
+# CUSTOM USER MODEL
+# ================================
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
     LIBRARIAN = "librarian"
