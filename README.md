@@ -7,9 +7,8 @@ Tech: Python (Django), JavaScript, HTML, CSS
 
 - Librarian Profile/Dashboard
 #### `https://online-library-goy7.onrender.com/list-checkout-books/`
-  
-  <img width="649" height="433" alt="books" src="" />
-  ![Home Catalog](https://github.com/user-attachments/assets/b9493c8c-f1e1-4654-b608-4aac05711a41?raw=true)
+  ![list-checkout-books](https://github.com/denscholar/online_library/blob/main/screenshots/checkoutbook.png?raw=true)
+
 
 - Checked-out book section - Librarian
 #### `https://online-library-goy7.onrender.com/list-checkout-books/`
